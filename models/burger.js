@@ -1,7 +1,22 @@
-  // * In `models`, make a `burger.js` file.
+// Import the ORM 
+var orm = require("../config/orm.js");
 
-  //   * Inside `burger.js`, import `orm.js` into `burger.js`
 
-  //   * Also inside `burger.js`, create the code that will call the ORM functions using burger specific input for the ORM.
+//-----------------Call the ORM--------------------------//
+	var burger = {
+		all: function(callback){
+			orm.all("burgers",function(response){
+				callback(response);
+			});
+		},
+		create:function(columns, values, callback){
+			orm.create("burgers",columns,values,function(response){
+				callback(response);
+			});
+		}
+	};
+//_____________________________________________________//
 
-  //   * Export at the end of the `burger.js` file.
+
+// Export burger
+module.exports = burger;

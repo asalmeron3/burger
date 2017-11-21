@@ -1,6 +1,27 @@
-// 3. Inside the `burgers_controller.js` file, import the following:
+var express  = require("express");
+var router = express.Router();
 
-//    * Express
-//    * `burger.js`
+var burgers = require("../models/burgers.js");
 
-// 4. Create the `router` for the app, and export the `router` at the end of your file.
+//----------------Router------------------------//
+	router.get("/", function(request,response){
+		burgers.all(function(data){
+			var fullBurgersObj = {
+				allBurgers : data
+			};
+			console.log(fullBurgersObj);
+			response.render("index",fullBurgersObj);
+		});
+	});
+
+	router.post("api/addburger", function(request,response){
+		burgers.create(
+			["burger_name"],
+			[request.body.burger_name],
+			function(result){
+				response.json({id:result.insertId})
+			});
+	});
+//_____________________________________________
+
+module.export = router;
