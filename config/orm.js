@@ -1,9 +1,58 @@
-   // * Import (require) `connection.js` into `orm.js`
+// -----------Require/Import Your connection ---------
 
-   // * In the `orm.js` file, create the methods that will execute the necessary MySQL commands in the controllers. These are the methods you will need to use in order to retrieve and store data in your database.
+	var connection = require("../config/connection.js");
+//------------------------------------------------------
 
-   //   * `selectAll()` 
-   //   * `insertOne()` 
-   //   * `updateOne()` 
+   
+// ------   Object for all our SQL functions -----------
+//
+	var orm = {
+	  selectAll: function(table, callback) {
+	    var queryString = "SELECT * FROM " + table + ";";
+	    connection.query(queryString, function(err, result) {
+	      if (err) {
+	        throw err;
+	      }
+	      callback(result);
+	    });
+	  },
+	  insertOne: function(table, newBurgerName, callback) {
+	    var queryString = "INSERT INTO " + table + " (burger_name) VALUES (" + newBurgerName +")";
 
-   // * Export the ORM object in `module.exports`.
+	    console.log(queryString);
+
+	    connection.query(queryString, newBurgerName, function(err, result) {
+	      if (err) {
+	        throw err;
+	      }
+
+	      callback(result);
+	    });
+	  },
+
+	  // An example of objColVals would be {devoured: true}
+	  // condition "burger name == xyz"
+	  updateOne: function(table, objColVals, condition, callback) {
+	    var queryString = "UPDATE " + table;
+
+	    queryString += " SET " + objToSql(objColVals) + " WHERE" + condition;
+
+	    console.log(queryString);
+
+	    connection.query(queryString, function(err, result) {
+	      if (err) {
+	        throw err;
+	      }
+
+	      callback(result);
+	    });
+	  }
+	};
+//------------------------------------------------------	
+
+
+
+// ------Export the object for the model (burger.js)-----
+
+	module.exports = orm;
+//-------------------------------------------------------
