@@ -11,7 +11,7 @@
 
 	//App should handle parsing --> use body-parser
 	app.use(bodyParser.json({type:"application/vnd.api+json"}));
-	app.use(bodyParser.urlenocoded({extended:true}));
+	app.use(bodyParser.urlencoded({extended:true}));
 	app.use(bodyParser.text());
 
 	//static html to use
@@ -21,7 +21,7 @@
 
 //____________________Start Server_______________________
 
-	app.liste(PORT,function(){
+	app.listen(PORT,function(){
 		console.log("EatDaBurger is listening on PORT : " + PORT);
 	})
 //_______________________________________________________
